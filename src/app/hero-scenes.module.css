@@ -1,0 +1,185 @@
+.hero {
+  display: grid;
+  grid-template-areas: "stage" "controls";
+}
+
+.stage {
+  grid-area: stage;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scene {
+  grid-area: 1 / 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease-in-out), visibility 0s linear 420ms;
+}
+
+.scene[data-active="true"] {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.scene :global(.hero-visual) {
+  flex: 1;
+  min-height: clamp(240px, 25.5vw, 385px);
+  height: auto;
+}
+
+.controls {
+  grid-area: controls;
+  z-index: 2;
+  padding: 8px clamp(18px, 4.2vw, 60px);
+  background: #edf3fa;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 2.5vw, 34px);
+}
+
+.tabs button {
+  position: relative;
+  min-height: 46px;
+  padding: 5px 1px 7px;
+  border: 0;
+  background: none;
+  color: var(--secondary);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 750;
+  text-align: start;
+  line-height: 1.25;
+  transition: color var(--control-speed) ease;
+}
+
+.tabs button[aria-selected="true"], .tabs button:hover {
+  color: var(--blue-ink);
+}
+
+.tabs button::after,
+.progress {
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  pointer-events: none;
+}
+
+.tabs button::after {
+  background: #d4e0ef;
+  content: "";
+}
+
+.progress {
+  z-index: 1;
+  background: var(--blue);
+  transform-origin: left;
+}
+
+.hero[data-autoplay="true"] .progress {
+  animation: scene-progress 12s linear both paused;
+}
+
+.hero[data-playing="true"] .progress {
+  animation-play-state: running;
+}
+
+@keyframes scene-progress {
+  from { transform: scaleX(0.035); }
+  to { transform: scaleX(1); }
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(24px, 2.8vw, 42px) clamp(25px, 4.2vw, 60px);
+}
+
+.split :global(.route-scene) { width: min(100%, 680px); justify-self: end; }
+
+.copy h2 {
+  max-width: 13ch;
+  color: #000;
+  font-size: clamp(36px, 4.45vw, 72px);
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.copy p {
+  max-width: 33ch;
+  margin-block: 14px 20px;
+  color: var(--secondary);
+  font-size: clamp(16px, 1.45vw, 20px);
+}
+
+.portalScene {
+  position: relative;
+  min-height: clamp(275px, 30vw, 465px);
+  overflow: hidden;
+  border-radius: 20px;
+  background: #e8edf4;
+}
+
+.portalScene img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+@media (max-width: 900px) {
+  .copy h2 { font-size: clamp(30px, 4.8vw, 49px); }
+}
+
+@media (max-width: 640px) {
+  .hero { grid-template-areas: "controls" "stage"; }
+  .stage { display: block; }
+  .scene:not([data-active="true"]) { display: none; }
+  .scene[data-active="true"] { animation: scene-enter 320ms ease-out; }
+  .scene:first-child[data-active="true"] { animation: none; }
+
+  .controls {
+    padding-block: 4px 0;
+  }
+
+  .tabs { gap: 5px; }
+  .tabs button { font-size: clamp(11px, 3vw, 13px); }
+
+  .scene :global(.hero-visual) { min-height: clamp(171px, 51vw, 300px); }
+
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 23px 18px 18px;
+  }
+
+  .copy p { margin-block: 10px 14px; }
+  .portalScene { min-height: 240px; }
+}
+
+@keyframes scene-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene, .scene[data-active="true"], .tabs button { transition: none; animation: none; }
+  .hero[data-autoplay="true"] .progress { animation: none; }
+}

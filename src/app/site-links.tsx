@@ -3,16 +3,30 @@ import Image from "next/image";
 const defaultMapUrl = "https://umap.kz/";
 const mapUrl = process.env.NEXT_PUBLIC_MAP_URL?.trim() || defaultMapUrl;
 
-export function getCityMapUrl(city: string) {
+function buildMapUrl(parameters: Record<string, string>) {
   const url = new URL(mapUrl, defaultMapUrl);
-  for (const parameter of ["bounds", "center", "zoom"]) {
+  for (const parameter of ["bounds", "center", "zoom", "routeFrom", "routeTo", "routeMode"]) {
     url.searchParams.delete(parameter);
   }
-  url.searchParams.set("city", city);
+  for (const [key, value] of Object.entries(parameters)) url.searchParams.set(key, value);
 
   return URL.canParse(mapUrl) || mapUrl.startsWith("//")
     ? url.href
     : `${url.pathname}${url.search}${url.hash}`;
+}
+
+export function getCityMapUrl(city: string) {
+  return buildMapUrl({ city });
+}
+
+export function getExampleRouteUrl(mode: "car" | "transit" | "walk") {
+  // Coordinates from Umap's share link for Хан Шатыр → Mega Silk Way.
+  return buildMapUrl({
+    city: "astana",
+    routeFrom: "71.40386073470006,51.13250475",
+    routeTo: "71.40728592973313,51.08908605",
+    routeMode: mode,
+  });
 }
 
 export function ArrowIcon() {
@@ -33,10 +47,10 @@ export function ArrowIcon() {
   );
 }
 
-export function MapLink({ secondary = false }: { secondary?: boolean }) {
+export function MapLink({ secondary = false, href = mapUrl, label = "Открыть карту" }: { secondary?: boolean; href?: string; label?: string }) {
   return (
-    <a className={secondary ? "map-link map-link-secondary" : "map-link"} href={mapUrl}>
-      Открыть карту
+    <a className={secondary ? "map-link map-link-secondary" : "map-link"} href={href}>
+      {label}
       <ArrowIcon />
     </a>
   );
@@ -57,6 +71,7 @@ export function SectionLinks() {
       <a href="#features">Возможности</a>
       <a href="#routes">Маршруты</a>
       <a href="#cities">Города</a>
+      <a href="#organizations">Для организаций</a>
     </>
   );
 }
