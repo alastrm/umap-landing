@@ -1,5 +1,6 @@
 import { geoConicConformal, geoPath } from "d3-geo";
 import type { Feature, MultiLineString, MultiPolygon, Position } from "geojson";
+import type { CSSProperties } from "react";
 import detail from "./data/kazakhstan-detail.json";
 import kazakhstan from "./data/kazakhstan.json";
 import { ArrowIcon, getCityMapUrl } from "./site-links";
@@ -22,6 +23,16 @@ const context = path(detail.context as MultiLineString) ?? undefined;
 const regions = path(detail.regions as MultiLineString) ?? undefined;
 const water = path(detail.water as MultiPolygon) ?? undefined;
 
+const projectedCities = cities.flatMap((city) => {
+  const point = projection(city.coordinates);
+  if (!point) return [];
+  return [{ ...city, x: `${point[0] / width * 100}%`, y: `${point[1] / height * 100}%` }];
+});
+
+const cameraOrigins = Object.fromEntries(
+  projectedCities.flatMap(({ id, x, y }) => [[`--${id}-x`, x], [`--${id}-y`, y]]),
+) as CSSProperties;
+
 const mapLabels: { name: string; coordinates: Position; layer: "water" | "context" }[] = [
   { name: "Россия", coordinates: [62.6, 55.15], layer: "context" },
   { name: "Китай", coordinates: [88.1, 44.4], layer: "context" },
@@ -43,52 +54,52 @@ export function CitySection() {
         <p>Выберите Астану или Алматы, чтобы перейти к карте города.</p>
       </div>
       <div className="country-map" data-reveal>
-        <div className="country-map-canvas">
-          <svg
-            className="country-outline"
-            viewBox={`0 0 ${width} ${height}`}
-            role="img"
-            aria-label="Карта Казахстана с границами областей и крупными водоёмами"
-          >
-            <defs>
-              <path id="kazakhstan-boundary" d={outline} />
-              <clipPath id="kazakhstan-clip">
-                <use href="#kazakhstan-boundary" />
-              </clipPath>
-            </defs>
-            <path className="map-context" d={context} vectorEffect="non-scaling-stroke" />
-            <use className="map-land" href="#kazakhstan-boundary" />
-            <path className="map-regions" d={regions} clipPath="url(#kazakhstan-clip)" vectorEffect="non-scaling-stroke" />
-            <path className="map-water" d={water} vectorEffect="non-scaling-stroke" />
-            <use className="map-border" href="#kazakhstan-boundary" vectorEffect="non-scaling-stroke" />
-            <g className="map-labels" aria-hidden="true">
-              {geographicLabels.map(({ name, coordinates, layer }) => {
-                const position = projection([coordinates[0], coordinates[1]]);
-                if (!position) return null;
-                const [x, y] = position;
+        <div className="country-map-canvas" style={cameraOrigins}>
+          <div className="country-map-camera">
+            <svg
+              className="country-outline"
+              viewBox={`0 0 ${width} ${height}`}
+              role="img"
+              aria-label="Карта Казахстана с границами областей и крупными водоёмами"
+            >
+              <defs>
+                <path id="kazakhstan-boundary" d={outline} />
+                <clipPath id="kazakhstan-clip">
+                  <use href="#kazakhstan-boundary" />
+                </clipPath>
+              </defs>
+              <path className="map-context" d={context} vectorEffect="non-scaling-stroke" />
+              <use className="map-land" href="#kazakhstan-boundary" />
+              <path className="map-regions" d={regions} clipPath="url(#kazakhstan-clip)" vectorEffect="non-scaling-stroke" />
+              <path className="map-water" d={water} vectorEffect="non-scaling-stroke" />
+              <use className="map-border" href="#kazakhstan-boundary" vectorEffect="non-scaling-stroke" />
+              <g className="map-labels" aria-hidden="true">
+                {geographicLabels.map(({ name, coordinates, layer }) => {
+                  const position = projection([coordinates[0], coordinates[1]]);
+                  if (!position) return null;
+                  const [x, y] = position;
 
-                return <text key={name} className={`map-label-${layer}`} x={x} y={y}>{name}</text>;
-              })}
-            </g>
-          </svg>
-          {cities.map(({ id, name, coordinates }) => {
-            const position = projection(coordinates);
-            if (!position) return null;
-            const [x, y] = position;
-
-            return (
+                  return <text key={name} className={`map-label-${layer}`} x={x} y={y}>{name}</text>;
+                })}
+              </g>
+            </svg>
+          </div>
+          {projectedCities.map(({ id, name, x, y }) => (
+            <div
+              key={id}
+              className="city-marker-track"
+              style={{ "--city-x": x, "--city-y": y } as CSSProperties}
+            >
               <a
-                key={id}
                 className={`city-marker city-marker-${id}`}
                 href={getCityMapUrl(id)}
                 aria-label={`${name} — открыть карту`}
-                style={{ left: `${x / width * 100}%`, top: `${y / height * 100}%` }}
               >
                 <span className="city-marker-dot" aria-hidden="true" />
                 <span className="city-marker-name">{name}<ArrowIcon /></span>
               </a>
-            );
-          })}
+            </div>
+          ))}
         </div>
         <small className="country-map-credit">
           Геоданные · <a href="https://data.humdata.org/dataset/cod-ab-kaz">UNHCR / HDX</a>

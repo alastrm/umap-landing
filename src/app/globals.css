@@ -43,6 +43,10 @@ html {
   scroll-padding-top: 24px;
 }
 
+html.lenis {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: #fff;
@@ -306,7 +310,7 @@ img {
   margin-top: var(--section-space);
 }
 
-.features h2,
+.features > h2,
 .route-heading h2,
 .cities h2,
 .closing h2 {
@@ -315,72 +319,9 @@ img {
   line-height: 1.1;
 }
 
-.features h2 {
-  margin-bottom: clamp(18px, 2.2vw, 30px);
+.features > h2 {
+  margin-bottom: clamp(12px, 1.2vw, 18px);
   text-wrap: balance;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.24fr) minmax(0, 0.76fr);
-  gap: 22px;
-}
-
-.feature {
-  min-width: 0;
-}
-
-.feature h3 {
-  font-size: clamp(23px, 2.2vw, 32px);
-  letter-spacing: -0.028em;
-  line-height: 1.14;
-}
-
-.feature p {
-  max-width: 34ch;
-  margin-top: 10px;
-  color: var(--secondary);
-}
-
-.feature-find {
-  display: grid;
-  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
-  align-items: center;
-  gap: clamp(12px, 2vw, 30px);
-  min-height: 306px;
-  overflow: hidden;
-  padding-left: clamp(20px, 3.1vw, 44px);
-  border-radius: 18px;
-  background: #e9f0fd;
-}
-
-.catalogue-visual {
-  display: flex;
-  align-items: center;
-  align-self: stretch;
-  padding-block: 20px;
-}
-
-.catalogue-visual img {
-  width: min(calc(100% - 16px), 306px);
-  border: 4px solid #fff;
-  border-radius: 13px;
-  box-shadow: 0 12px 30px -20px #415b81;
-}
-
-.feature-place {
-  display: grid;
-  align-content: center;
-  gap: clamp(16px, 2vw, 27px);
-  padding: clamp(18px, 2.25vw, 32px) clamp(0px, 1.1vw, 16px);
-  border-block: 1px solid var(--line);
-}
-
-.place-details {
-  width: min(100%, 380px);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #f5f6f8;
 }
 
 .route-showcase {
@@ -544,8 +485,14 @@ img {
 }
 
 .country-map-canvas {
+  --map-zoom: 1;
+  --map-x: 0%;
+  --map-y: 0%;
+  --map-zoom-duration: 820ms;
+  --map-zoom-ease: cubic-bezier(0.35, 0.06, 0.22, 1);
   position: relative;
   width: 100%;
+  overflow: clip;
 }
 
 .country-outline {
@@ -630,10 +577,19 @@ img {
   outline-offset: -3px;
 }
 
+.city-marker-track {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
 .city-marker {
   --target-radius: 22px;
   display: flex;
   position: absolute;
+  left: var(--city-x);
+  top: var(--city-y);
+  pointer-events: auto;
   align-items: center;
   gap: 6px;
   min-width: calc(2 * var(--target-radius));
@@ -703,6 +659,44 @@ img {
 .city-marker:active .city-marker-name {
   background: var(--blue-ink);
   transform: translateY(1px);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .country-map-canvas:not(:has(.city-marker:focus-visible)):has(.city-marker-astana:hover) {
+    --map-x: var(--astana-x);
+    --map-y: var(--astana-y);
+    --map-zoom: 1.76;
+  }
+
+  .country-map-canvas:not(:has(.city-marker:focus-visible)):has(.city-marker-almaty:hover) {
+    --map-x: var(--almaty-x);
+    --map-y: var(--almaty-y);
+    --map-zoom: 1.84;
+  }
+
+  .country-map-camera {
+    transform: translate3d(
+      calc((1 - var(--map-zoom)) * var(--map-x)),
+      calc((1 - var(--map-zoom)) * var(--map-y)),
+      0
+    ) scale(var(--map-zoom));
+    transform-origin: 0 0;
+    will-change: transform;
+    transition: transform var(--map-zoom-duration) var(--map-zoom-ease);
+  }
+
+  .city-marker-track {
+    transform: translate3d(
+      calc((var(--city-x) - var(--map-x)) * (var(--map-zoom) - 1)),
+      calc((var(--city-y) - var(--map-y)) * (var(--map-zoom) - 1)),
+      0
+    );
+    transition: transform var(--map-zoom-duration) var(--map-zoom-ease);
+  }
+
+  .city-marker-track:has(.city-marker:hover) {
+    z-index: 1;
+  }
 }
 
 .closing {
@@ -776,19 +770,6 @@ img {
     top: 29px;
     left: 10%;
     width: 95%;
-  }
-
-  .feature-grid {
-    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
-    gap: 16px;
-  }
-
-  .feature-find {
-    min-height: 270px;
-  }
-
-  .feature p {
-    font-size: 15px;
   }
 
   .route-layout {
@@ -887,30 +868,6 @@ img {
     left: 5px;
     width: clamp(142px, 42vw, 205px);
     transform: rotate(-18deg);
-  }
-
-  .feature-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .feature-find {
-    min-height: 234px;
-    padding-left: 16px;
-    border-radius: 14px;
-  }
-
-  .catalogue-visual img {
-    width: calc(100% - 10px);
-    border-width: 3px;
-  }
-
-  .feature-place {
-    padding-block: 17px 20px;
-  }
-
-  .place-details {
-    width: min(100%, 330px);
   }
 
   .route-layout {
