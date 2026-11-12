@@ -15,7 +15,7 @@ export function getCityMapUrl(city: string) {
     : `${url.pathname}${url.search}${url.hash}`;
 }
 
-export function ArrowIcon({ direction = "external" }: { direction?: "external" | "down" }) {
+export function ArrowIcon() {
   return (
     <svg
       aria-hidden="true"
@@ -28,7 +28,7 @@ export function ArrowIcon({ direction = "external" }: { direction?: "external" |
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d={direction === "down" ? "M12 5v14m-5-5 5 5 5-5" : "M6 18 18 6M7 6h11v11"} />
+      <path d="M6 18 18 6M7 6h11v11" />
     </svg>
   );
 }
@@ -55,7 +55,7 @@ export function SectionLinks() {
   return (
     <>
       <a href="#features">Возможности</a>
-      <a href="#about">О сервисе</a>
+      <a href="#routes">Маршруты</a>
       <a href="#cities">Города</a>
     </>
   );

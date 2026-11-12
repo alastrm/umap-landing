@@ -1,22 +1,23 @@
 import Image from "next/image";
 import { CitySection } from "./city-section";
-import { FeatureGrid, ProductStories } from "./product-sections";
+import { FeatureGrid, RouteShowcase } from "./product-sections";
 import { Brand, MapLink, SectionLinks } from "./site-links";
 
 function Hero() {
   return (
-    <section className="hero wrap" aria-labelledby="hero-title">
+    <section className="hero" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <p className="section-label">Карта города</p>
-        <h1 id="hero-title">
-          Город ближе,{" "}
-          <span>чем кажется</span>
-        </h1>
-        <p className="hero-description">
-          Находите места и организации, выбирайте маршруты и исследуйте город на
-          одной карте.
-        </p>
-        <MapLink />
+        <div>
+          <p className="section-label">Карта города</p>
+          <h1 id="hero-title">
+            Город ближе,{" "}
+            <span>чем кажется</span>
+          </h1>
+        </div>
+        <div className="hero-action">
+          <p>Находите места и организации, изучайте город и стройте маршруты.</p>
+          <MapLink />
+        </div>
       </div>
       <div className="hero-visual">
         <picture className="hero-map">
@@ -31,11 +32,11 @@ function Hero() {
           />
         </picture>
         <Image
-          className="hero-search"
-          src="/assets/umap-search-results.webp"
-          width={626}
-          height={783}
-          alt="Результаты поиска организаций в Umap"
+          className="hero-mark"
+          src="/assets/umap-logo-3d.webp"
+          width={1440}
+          height={1440}
+          alt=""
           loading="eager"
         />
       </div>
@@ -46,17 +47,8 @@ function Hero() {
 function FinalCallToAction() {
   return (
     <section className="closing wrap" aria-labelledby="closing-title">
-      <div className="closing-copy">
-        <h2 id="closing-title">Откройте город с&nbsp;Umap</h2>
-        <MapLink />
-      </div>
-      <Image
-        className="closing-mark"
-        src="/assets/umap-logo-3d.webp"
-        width={1440}
-        height={1440}
-        alt=""
-      />
+      <h2 id="closing-title">Откройте город с&nbsp;Umap</h2>
+      <MapLink />
     </section>
   );
 }
@@ -77,7 +69,7 @@ export default function HomePage() {
       <main id="main" tabIndex={-1}>
         <Hero />
         <FeatureGrid />
-        <ProductStories />
+        <RouteShowcase />
         <CitySection />
         <FinalCallToAction />
       </main>
