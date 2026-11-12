@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">umap</title>
+  <desc id="desc">Синий маркер на светлой складной карте</desc>
+  <defs>
+    <linearGradient id="blue" x1="16" y1="0" x2="240" y2="256" gradientUnits="userSpaceOnUse"><stop stop-color="#2695FF"/><stop offset="1" stop-color="#086CEB"/></linearGradient>
+    <linearGradient id="paper" x1="40" y1="56" x2="208" y2="210" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAF3FF"/></linearGradient>
+    <linearGradient id="pin" x1="114" y1="66" x2="167" y2="166" gradientUnits="userSpaceOnUse"><stop stop-color="#1588FF"/><stop offset="1" stop-color="#065FD7"/></linearGradient>
+    <clipPath id="mapClip"><path d="m46 73 49-17 63 17 45-15q9-3 9 7v115q0 6-6 8l-48 16-63-17-43 15q-9 3-9-7V82q0-7 3-9Z"/></clipPath>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="url(#blue)"/>
+  <g>
+    <path d="m46 79 49-17 63 17 45-15q9-3 9 7v115q0 6-6 8l-48 16-63-17-43 15q-9 3-9-7V88q0-7 3-9Z" fill="#004BAC" opacity=".2"/>
+    <path d="m46 73 49-17 63 17 45-15q9-3 9 7v115q0 6-6 8l-48 16-63-17-43 15q-9 3-9-7V82q0-7 3-9Z" fill="url(#paper)"/>
+    <g clip-path="url(#mapClip)">
+      <path d="M95 56v131l63 17V73Z" fill="#D9E9FB"/>
+      <path d="m167 74 24-8v32l-24 8ZM51 146l32-11v39l-32 11Z" fill="#C7E4D9"/>
+      <path d="m39 120 55-18 65 18 58-20M75 58v143M181 64v134" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+      <path d="m39 163 55-18 65 18 58-20" stroke="#B8D8FA" stroke-width="7" stroke-linejoin="round"/>
+    </g>
+    <path d="M140 68c-22 0-40 17-40 39 0 27 40 65 40 65s40-38 40-65c0-22-18-39-40-39Z" fill="url(#pin)" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="140" cy="106" r="14" fill="#FFFFFF"/>
+  </g>
+</svg>
