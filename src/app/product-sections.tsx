@@ -3,13 +3,13 @@ import { RoutePreview } from "./route-preview";
 
 export function FeatureGrid() {
   return (
-    <section className="features wrap" id="features" aria-labelledby="features-title">
-      <h2 id="features-title">Найдите нужное место</h2>
+    <section className="features wrap" id="features" aria-labelledby="features-title" data-reveal>
+      <h2 id="features-title">От поиска до нужного места</h2>
       <div className="feature-grid">
         <article className="feature feature-find">
           <div className="feature-copy">
-            <h3>Поиск и категории</h3>
-            <p>Введите название места или выберите категорию, чтобы посмотреть, что есть рядом.</p>
+            <h3>Поиск по городу</h3>
+            <p>Введите название или выберите категорию, например «Кофейни».</p>
           </div>
           <div className="catalogue-visual">
             <Image
@@ -22,8 +22,8 @@ export function FeatureGrid() {
         </article>
         <article className="feature feature-place">
           <div className="feature-copy">
-            <h3>Подробности о месте</h3>
-            <p>Откройте карточку организации, чтобы узнать её адрес и часы работы.</p>
+            <h3>Информация о месте</h3>
+            <p>В карточке видны адрес и часы работы, а на карте — где находится организация.</p>
           </div>
           <Image
             className="place-details"
@@ -41,12 +41,11 @@ export function FeatureGrid() {
 export function RouteShowcase() {
   return (
     <section className="route-showcase" id="about" aria-labelledby="routes-title">
-      <div className="route-layout wrap" id="routes">
+      <div className="route-layout wrap" id="routes" data-reveal>
         <div className="route-heading">
-          <p className="section-label">Маршруты</p>
-          <h2 id="routes-title">Выберите, как добраться</h2>
+          <h2 id="routes-title">Сравните варианты маршрута</h2>
           <p className="route-description">
-            Задайте точки и сравните время в пути на машине, автобусе или пешком.
+            Укажите начальную и конечную точки. Посмотрите время в пути на машине, автобусе и пешком.
           </p>
         </div>
         <RoutePreview />

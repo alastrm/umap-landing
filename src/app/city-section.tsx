@@ -10,7 +10,7 @@ const cities = [
 ] satisfies { id: string; name: string; coordinates: [number, number] }[];
 
 const width = 1120;
-const height = 555;
+const height = 500;
 const country = kazakhstan as Feature<MultiPolygon>;
 const projection = geoConicConformal()
   .rotate([-67, 0])
@@ -39,10 +39,10 @@ export function CitySection() {
   return (
     <section className="cities wrap" id="cities" aria-labelledby="cities-title">
       <div className="cities-heading">
-        <h2 id="cities-title">Города Казахстана</h2>
-        <p>Выберите город на карте.</p>
+        <h2 id="cities-title">Umap в Казахстане</h2>
+        <p>Выберите Астану или Алматы, чтобы перейти к карте города.</p>
       </div>
-      <div className="country-map">
+      <div className="country-map" data-reveal>
         <div className="country-map-canvas">
           <svg
             className="country-outline"

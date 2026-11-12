@@ -14,14 +14,21 @@ export function RoutePreview() {
 
   return (
     <div className="route-scene">
-      <Image
-        className="route-map-image"
-        src={`/assets/umap-route-${route.id}-scene.webp`}
-        width={1200}
-        height={900}
-        alt={`Маршрут от Хан Шатыра до Mega Silk Way ${route.mode} в Астане`}
-      />
+      <div className="route-map" id="route-map">
+        {routes.map((option) => (
+          <Image
+            key={option.id}
+            className="route-map-image"
+            src={`/assets/umap-route-${option.id}-scene.webp`}
+            width={1200}
+            height={900}
+            alt={`Маршрут от Хан Шатыра до Mega Silk Way ${option.mode} в Астане`}
+            aria-hidden={route.id !== option.id}
+          />
+        ))}
+      </div>
       <div className="route-panel">
+        <p className="route-example">Пример маршрута · Астана</p>
         <p className="route-panel-title">Хан Шатыр → Mega Silk Way</p>
         <div className="route-modes" role="group" aria-label="Способ передвижения">
           {routes.map((option) => (
@@ -29,6 +36,7 @@ export function RoutePreview() {
               key={option.id}
               type="button"
               aria-pressed={route.id === option.id}
+              aria-controls="route-map"
               onClick={() => setRoute(option)}
             >
               <span>{option.label}</span>

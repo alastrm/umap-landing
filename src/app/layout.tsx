@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const title = "Umap — карта города, поиск мест и маршруты";
+const title = "Umap — карта Астаны и Алматы";
 const description =
-  "Umap помогает искать места и организации, исследовать карту и строить маршруты.";
+  "Ищите организации по названию и категории, проверяйте адреса и часы работы, сравнивайте маршруты в Umap.";
 
 export const metadata: Metadata = {
   title,

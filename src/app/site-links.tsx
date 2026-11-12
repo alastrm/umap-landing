@@ -33,9 +33,9 @@ export function ArrowIcon() {
   );
 }
 
-export function MapLink({ compact = false }: { compact?: boolean }) {
+export function MapLink({ secondary = false }: { secondary?: boolean }) {
   return (
-    <a className={compact ? "map-link map-link-compact" : "map-link"} href={mapUrl}>
+    <a className={secondary ? "map-link map-link-secondary" : "map-link"} href={mapUrl}>
       Открыть карту
       <ArrowIcon />
     </a>

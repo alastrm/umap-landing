@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CitySection } from "./city-section";
+import { LandingMotion } from "./landing-motion";
 import { FeatureGrid, RouteShowcase } from "./product-sections";
 import { Brand, MapLink, SectionLinks } from "./site-links";
 
@@ -7,13 +8,10 @@ function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <div>
-          <p className="section-label">Карта города</p>
-          <h1 id="hero-title">
-            Город ближе,{" "}
-            <span>чем кажется</span>
-          </h1>
-        </div>
+        <h1 id="hero-title">
+          Найдите место.{" "}
+          <span>Постройте маршрут.</span>
+        </h1>
         <div className="hero-action">
           <p>Находите места и организации, изучайте город и стройте маршруты.</p>
           <MapLink />
@@ -21,12 +19,12 @@ function Hero() {
       </div>
       <div className="hero-visual">
         <picture className="hero-map">
-          <source media="(max-width: 640px)" srcSet="/assets/umap-map-compact.webp" />
+          <source media="(max-width: 640px)" srcSet="/assets/forHero-compact.webp" width={820} height={449} />
           <Image
-            src="/assets/umap-map-wide.webp"
+            src="/assets/forHero-wide.webp"
             width={1680}
-            height={916}
-            alt="Карта Umap с улицами и объёмными зданиями, строкой поиска и отметками мест"
+            height={920}
+            alt="Карта Астаны в Umap с объёмными зданиями вокруг Ботанического сада"
             loading="eager"
             fetchPriority="high"
           />
@@ -46,8 +44,8 @@ function Hero() {
 
 function FinalCallToAction() {
   return (
-    <section className="closing wrap" aria-labelledby="closing-title">
-      <h2 id="closing-title">Откройте город с&nbsp;Umap</h2>
+    <section className="closing wrap" aria-labelledby="closing-title" data-reveal>
+      <h2 id="closing-title">Начните с карты</h2>
       <MapLink />
     </section>
   );
@@ -64,7 +62,7 @@ export default function HomePage() {
         <nav className="site-nav" aria-label="Основная навигация">
           <SectionLinks />
         </nav>
-        <MapLink compact />
+        <MapLink secondary />
       </header>
       <main id="main" tabIndex={-1}>
         <Hero />
@@ -76,12 +74,13 @@ export default function HomePage() {
       <footer className="site-footer wrap">
         <div className="footer-brand">
           <Brand />
-          <p>Карта и поиск мест в городе.</p>
+          <p>Поиск мест и маршруты в городе.</p>
         </div>
         <nav className="footer-nav" aria-label="Навигация в подвале">
           <SectionLinks />
         </nav>
       </footer>
+      <LandingMotion />
     </>
   );
 }
