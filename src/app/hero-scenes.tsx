@@ -149,7 +149,7 @@ export function HeroScenes() {
             <MapLink href="#organizations" label="Перейти к сервисам" />
           </div>
           <div className={styles.portalScene}>
-            <Image src="/assets/umap-portals.webp" width={560} height={500} alt="" />
+            <Image src="/assets/umap-route-entry.webp" width={1268} height={885} alt="Карточка организации рядом с её расположением на карте Umap" />
           </div>
         </div>
       </div>

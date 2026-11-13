@@ -23,23 +23,25 @@ export function CityExplorer({ cities, children }: { cities: City[]; children: R
   return (
     <div className={styles.cityLayout}>
       <div className={`country-map-canvas ${styles.cityMap}`} style={cameraOrigins}>
-        <div className="country-map-camera">{children}</div>
-        {cities.map((city) => (
-          <div key={city.id} className="city-marker-track" style={{ "--city-x": city.x, "--city-y": city.y } as CSSProperties}>
-            <button
-              type="button"
-              className={`city-marker city-marker-${city.id}`}
-              aria-pressed={active.id === city.id}
-              aria-controls="city-preview"
-              onPointerEnter={(event) => { if (event.pointerType === "mouse") setActive(city); }}
-              onFocus={() => setActive(city)}
-              onClick={() => setActive(city)}
-            >
-              <span className="city-marker-dot" aria-hidden="true" />
-              <span className="city-marker-name">{city.name}</span>
-            </button>
-          </div>
-        ))}
+        <div className="country-map-camera">
+          {children}
+          {cities.map((city) => (
+            <div key={city.id} className="city-marker-track" style={{ "--city-x": city.x, "--city-y": city.y } as CSSProperties}>
+              <button
+                type="button"
+                className={`city-marker city-marker-${city.id}`}
+                aria-pressed={active.id === city.id}
+                aria-controls="city-preview"
+                onPointerEnter={(event) => { if (event.pointerType === "mouse") setActive(city); }}
+                onFocus={() => setActive(city)}
+                onClick={() => setActive(city)}
+              >
+                <span className="city-marker-dot" aria-hidden="true" />
+                <span className="city-marker-name">{city.name}</span>
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
       <aside className={styles.cityPanel} id="city-preview" aria-label="Выбранный город">
         <div className={styles.cityPanelHeading} aria-live="polite">

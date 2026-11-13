@@ -32,21 +32,21 @@
 
 .scene :global(.hero-visual) {
   flex: 1;
-  min-height: clamp(240px, 25.5vw, 385px);
+  min-height: clamp(228px, 24vw, 355px);
   height: auto;
 }
 
 .controls {
   grid-area: controls;
   z-index: 2;
-  padding: 8px clamp(18px, 4.2vw, 60px);
+  padding: 8px var(--hero-inset);
   background: #edf3fa;
 }
 
 .tabs {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(8px, 2.5vw, 34px);
+  gap: var(--content-gap);
 }
 
 .tabs button {
@@ -103,35 +103,33 @@
 
 .split {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, min(57%, 590px));
   align-items: center;
-  gap: clamp(24px, 4vw, 64px);
-  padding: clamp(24px, 2.8vw, 42px) clamp(25px, 4.2vw, 60px);
+  gap: clamp(24px, 3.35vw, 48px);
+  padding: var(--panel-padding) var(--hero-inset);
 }
-
-.split :global(.route-scene) { width: min(100%, 680px); justify-self: end; }
 
 .copy h2 {
   max-width: 13ch;
   color: #000;
-  font-size: clamp(36px, 4.45vw, 72px);
-  letter-spacing: -0.045em;
-  line-height: 1.04;
+  font-size: clamp(34px, 4.1vw, 58px);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
   text-wrap: balance;
 }
 
 .copy p {
   max-width: 33ch;
-  margin-block: 14px 20px;
+  margin-block: 12px var(--hero-copy-gap);
   color: var(--secondary);
-  font-size: clamp(16px, 1.45vw, 20px);
+  font-size: clamp(16px, 1.3vw, 19px);
 }
 
 .portalScene {
   position: relative;
-  min-height: clamp(275px, 30vw, 465px);
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: var(--panel-radius);
   background: #e8edf4;
 }
 
@@ -141,7 +139,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 55%;
+  object-position: 10% 45%;
 }
 
 @media (max-width: 900px) {
@@ -150,36 +148,31 @@
 
 @media (max-width: 640px) {
   .hero { grid-template-areas: "controls" "stage"; }
-  .stage { display: block; }
-  .scene:not([data-active="true"]) { display: none; }
-  .scene[data-active="true"] { animation: scene-enter 320ms ease-out; }
-  .scene:first-child[data-active="true"] { animation: none; }
 
   .controls {
     padding-block: 4px 0;
   }
 
-  .tabs { gap: 5px; }
+  .tabs { gap: 8px; }
   .tabs button { font-size: clamp(11px, 3vw, 13px); }
 
   .scene :global(.hero-visual) { min-height: clamp(171px, 51vw, 300px); }
 
   .split {
     grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-    padding: 23px 18px 18px;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: start;
+    gap: var(--panel-padding);
+    padding-block: 24px var(--panel-padding);
   }
 
-  .copy p { margin-block: 10px 14px; }
-  .portalScene { min-height: 240px; }
-}
-
-@keyframes scene-enter {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  .split :global(.route-map-image) { aspect-ratio: 1.48; object-fit: cover; object-position: 50% 62%; }
+  .copy h2 { max-width: none; }
+  .portalScene { align-self: stretch; min-height: 190px; aspect-ratio: auto; }
+  .portalScene img { object-position: left center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scene, .scene[data-active="true"], .tabs button { transition: none; animation: none; }
+  .scene, .tabs button { transition: none; }
   .hero[data-autoplay="true"] .progress { animation: none; }
 }

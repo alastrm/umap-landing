@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BentoVideo } from "./bento-video";
 import { bentoMetrics, portals } from "./landing-content";
 import { ArrowIcon, Brand, getCityMapUrl, MapLink, SectionLinks } from "./site-links";
 import styles from "./editorial.module.css";
@@ -9,7 +10,7 @@ function Metric({ value, label }: { value: number; label: string }) {
   return (
     <div className={styles.metric}>
       <h3>{formatMetric.format(value)}</h3>
-      <p>{label}{bentoMetrics.isDemo && <span className={styles.demo}>Демо</span>}</p>
+      <p>{label}</p>
     </div>
   );
 }
@@ -18,34 +19,42 @@ export function ProductOverview() {
   return (
     <section id="overview" className={`wrap ${styles.overview}`} aria-label="Показатели и возможности Umap">
       <div className={styles.bento}>
-        <article className={`${styles.tile} ${styles.fullMap}`}>
-          <Image src="/assets/umap-map-wide.webp" width={1680} height={916} alt="Объёмные здания и улицы на карте Umap" />
-          <div className={styles.mapCaption}>
-            <Metric {...bentoMetrics.users} />
-          </div>
+        <article className={`${styles.tile} ${styles.visualTile}`}>
+          <Image
+            className={styles.bentoImage}
+            src="/assets/umap-map-wide.webp"
+            width={1680}
+            height={916}
+            alt="Здания и улицы Астаны на 3D-карте Umap"
+          />
+          <Metric {...bentoMetrics.users} />
         </article>
-        <article className={`${styles.tile} ${styles.coverage}`}>
+        <article className={`${styles.tile} ${styles.textTile} ${styles.coverage}`}>
           <p>Города на карте</p>
           <h3>Астана<br />и Алматы</h3>
-          <a href="#cities">Выбрать город <ArrowIcon /></a>
+          <a href="#cities">Выбрать город <span aria-hidden="true">↓</span></a>
         </article>
-        <article className={`${styles.tile} ${styles.landmark}`}>
-          <Image src="/assets/umap-place-map.webp" width={960} height={798} alt="Организации на карте Umap" />
+        <article className={`${styles.tile} ${styles.visualTile}`}>
+          <div className={styles.listingPhoto}>
+            <Image
+              src="/assets/umap-place-preview.webp"
+              width={628}
+              height={515}
+              alt="Фотография интерьера из карточки организации в Umap"
+            />
+          </div>
           <Metric {...bentoMetrics.organizations} />
         </article>
-        <article className={`${styles.tile} ${styles.routeMetric}`}>
+        <article className={`${styles.tile} ${styles.textTile} ${styles.routeMetric}`}>
           <Metric {...bentoMetrics.routes} />
+          <a href="#routes">Сравнить маршруты <span aria-hidden="true">↑</span></a>
         </article>
-        <article className={`${styles.tile} ${styles.garden}`}>
-          <div>
-            <h3>Город в 3D</h3>
-            <p>Улицы и здания с высоты.</p>
-          </div>
-          <Image src="/assets/umap-botanical-garden.webp" width={920} height={420} alt="Аллеи и водоёмы Ботанического сада на карте Umap" />
-        </article>
-        <article className={`${styles.tile} ${styles.project}`}>
-          <p>О проекте</p>
+        <div className={styles.tile}>
+          <BentoVideo />
+        </div>
+        <article className={`${styles.tile} ${styles.textTile}`}>
           <h3>Карта и справочник в одном месте</h3>
+          <p>От адреса и часов работы до маршрута к нужному месту.</p>
         </article>
       </div>
     </section>
@@ -56,15 +65,15 @@ export function OrganizationSection() {
   return (
     <section id="organizations" className={styles.organizations} aria-labelledby="organizations-title">
       <div className="wrap">
-        <div className={styles.organizationHeading}>
-          <h2 id="organizations-title" className={styles.heading}>Umap для организаций</h2>
-          <p>В оба сервиса можно войти через общий аккаунт Umap.</p>
-        </div>
+        <h2 id="organizations-title" className="section-title">Umap для организаций</h2>
         <div className={styles.portals}>
-          {portals.map(({ title, audience, action, href }) => (
+          {portals.map(({ title, audience, description, action, href }) => (
             <a key={href} className={styles.portal} href={href}>
-              <span className={styles.audience}>{audience}</span>
-              <h3>{title}</h3>
+              <div>
+                <p className={styles.audience}>{audience}</p>
+                <h3>{title}</h3>
+                <p className={styles.portalDescription}>{description}</p>
+              </div>
               <span className={styles.portalAction}>{action} <ArrowIcon /></span>
             </a>
           ))}
@@ -103,8 +112,7 @@ export function SiteFooter() {
             </nav>
           </div>
           <div className={styles.footerEnd}>
-            <span>Umap · Веб-карта</span>
-            <a href="#top" aria-label="Наверх"><span aria-hidden="true">↑</span></a>
+            <a href="#top">Наверх <span aria-hidden="true">↑</span></a>
           </div>
         </div>
       </div>

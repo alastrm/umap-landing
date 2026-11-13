@@ -29,7 +29,13 @@
   --surface: #f1f4f8;
   --blue-surface: #eaf0ff;
   --gutter: clamp(20px, 4.5vw, 72px);
-  --section-space: clamp(48px, 4.4vw, 64px);
+  --section-space: clamp(64px, 7.7vw, 120px);
+  --section-heading-gap: 32px;
+  --content-gap: 20px;
+  --panel-padding: 28px;
+  --panel-radius: 20px;
+  --card-heading-size: clamp(24px, 2.35vw, 34px);
+  --hero-gutter: clamp(12px, 1.7vw, 28px);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --control-speed: 180ms;
@@ -223,12 +229,14 @@ img {
 }
 
 .hero {
+  --hero-inset: max(16px, calc(var(--gutter) - var(--hero-gutter)), calc((100% - 1280px) / 2));
+  --hero-copy-gap: 16px;
   position: relative;
   isolation: isolate;
-  width: min(1540px, calc(100% - 2 * clamp(12px, 1.7vw, 28px)));
+  width: min(1540px, calc(100% - 2 * var(--hero-gutter)));
   margin-inline: auto;
   overflow: hidden;
-  border-radius: 22px;
+  border-radius: 24px;
   background: #edf3fa;
 }
 
@@ -236,17 +244,17 @@ img {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(210px, 28%);
-  align-items: end;
-  gap: clamp(24px, 4.2vw, 72px);
-  padding: clamp(31px, 3.2vw, 52px) clamp(25px, 4.2vw, 60px) 0;
+  grid-template-columns: minmax(0, 690px) minmax(210px, 295px);
+  align-items: center;
+  gap: clamp(24px, 3.6vw, 54px);
+  padding: clamp(32px, 3.35vw, 48px) var(--hero-inset) 0;
 }
 
 .hero h1 {
   color: #000;
-  font-size: clamp(38px, 5.3vw, 85px);
-  letter-spacing: -0.048em;
-  line-height: 1.01;
+  font-size: clamp(38px, 4.75vw, 70px);
+  letter-spacing: -0.035em;
+  line-height: 1.06;
 }
 
 .hero h1 span {
@@ -255,23 +263,19 @@ img {
 
 .hero-action p {
   max-width: 28ch;
-  margin-bottom: 18px;
+  margin-bottom: var(--hero-copy-gap);
   color: var(--secondary);
-  font-size: clamp(16px, 1.43vw, 20px);
+  font-size: clamp(16px, 1.3vw, 19px);
 }
 
 .hero-action .map-link {
-  min-height: 58px;
-  gap: 14px;
-  padding-inline: 21px;
-  border-radius: 13px;
-  font-size: 16px;
+  min-height: 50px;
 }
 
 .hero-visual {
   position: relative;
   height: clamp(290px, 32vw, 465px);
-  margin-top: 22px;
+  margin-top: 18px;
 }
 
 .hero-map {
@@ -295,10 +299,10 @@ img {
 
 .hero-mark {
   position: absolute;
-  bottom: clamp(-38px, -2.35vw, -14px);
-  left: clamp(18px, 4.2vw, 66px);
-  width: clamp(218px, 28vw, 392px);
-  transform: rotate(-20deg);
+  bottom: clamp(-13px, -0.8vw, -6px);
+  left: clamp(20px, 5.4vw, 83px);
+  width: clamp(160px, 19vw, 280px);
+  transform: rotate(-17deg);
   filter: drop-shadow(3px 9px 10px rgb(18 28 48 / 15%));
   pointer-events: none;
 }
@@ -309,21 +313,22 @@ img {
 }
 
 .features > h2,
-.cities h2 {
-  font-size: clamp(32px, 3.65vw, 53px);
-  letter-spacing: -0.034em;
-  line-height: 1.1;
+.cities h2,
+.section-title {
+  font-size: clamp(29px, 3.35vw, 48px);
+  letter-spacing: -0.028em;
+  line-height: 1.13;
 }
 
 .features > h2 {
-  margin-bottom: clamp(12px, 1.2vw, 18px);
+  margin-bottom: var(--section-heading-gap);
   text-wrap: balance;
 }
 
 .route-scene {
   position: relative;
   min-width: 0;
-  border-radius: 18px;
+  border-radius: var(--panel-radius);
   background: #e9eff6;
 }
 
@@ -348,7 +353,7 @@ img {
   position: absolute;
   left: 14px;
   bottom: clamp(14px, 2vw, 28px);
-  width: min(44%, 332px);
+  width: min(59%, 332px);
   padding: 14px;
   border: 1px solid #e0e7f0;
   border-radius: 14px;
@@ -400,7 +405,7 @@ img {
 }
 
 .route-modes strong {
-  font-size: clamp(13px, 1.25vw, 17px);
+  font-size: clamp(12px, 1.1vw, 15px);
   white-space: nowrap;
 }
 
@@ -432,28 +437,24 @@ img {
 }
 
 .cities-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
+  display: grid;
+  gap: 8px;
+  margin-bottom: var(--section-heading-gap);
 }
 
 .cities-heading p {
-  max-width: 39ch;
   color: var(--secondary);
-  font-size: clamp(16px, 1.35vw, 19px);
+  font-size: clamp(16px, 1.25vw, 18px);
 }
 
 .country-map-canvas {
-  --map-zoom: 1;
-  --map-x: 0%;
-  --map-y: 0%;
-  --map-zoom-duration: 820ms;
-  --map-zoom-ease: cubic-bezier(0.35, 0.06, 0.22, 1);
   position: relative;
   width: 100%;
   overflow: clip;
+}
+
+.country-map-camera {
+  position: relative;
 }
 
 .country-outline {
@@ -615,42 +616,32 @@ img {
   color: #fff;
 }
 
+.city-marker[aria-pressed="true"] .city-marker-dot {
+  box-shadow: 0 0 0 5px rgb(32 87 223 / 25%);
+}
+
 .city-marker:active .city-marker-name {
   background: var(--blue-ink);
   transform: translateY(1px);
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .country-map-canvas:not(:has(.city-marker:focus-visible)):has(.city-marker-astana:hover) {
-    --map-x: var(--astana-x);
-    --map-y: var(--astana-y);
-    --map-zoom: 1.4;
+  .country-map-canvas:not(:has(.city-marker:focus-visible)):has(.city-marker-astana:hover) .country-map-camera {
+    --zoom-x: calc(-0.4 * var(--astana-x));
+    --zoom-y: calc(-0.4 * var(--astana-y));
+    --zoom-scale: 1.4;
   }
 
-  .country-map-canvas:not(:has(.city-marker:focus-visible)):has(.city-marker-almaty:hover) {
-    --map-x: var(--almaty-x);
-    --map-y: var(--almaty-y);
-    --map-zoom: 1.4;
+  .country-map-canvas:not(:has(.city-marker:focus-visible)):has(.city-marker-almaty:hover) .country-map-camera {
+    --zoom-x: calc(-0.4 * var(--almaty-x));
+    --zoom-y: calc(-0.4 * var(--almaty-y));
+    --zoom-scale: 1.4;
   }
 
   .country-map-camera {
-    transform: translate3d(
-      calc((1 - var(--map-zoom)) * var(--map-x)),
-      calc((1 - var(--map-zoom)) * var(--map-y)),
-      0
-    ) scale(var(--map-zoom));
+    transform: translate3d(var(--zoom-x, 0%), var(--zoom-y, 0%), 0) scale(var(--zoom-scale, 1));
     transform-origin: 0 0;
-    will-change: transform;
-    transition: transform var(--map-zoom-duration) var(--map-zoom-ease);
-  }
-
-  .city-marker-track {
-    transform: translate3d(
-      calc((var(--city-x) - var(--map-x)) * (var(--map-zoom) - 1)),
-      calc((var(--city-y) - var(--map-y)) * (var(--map-zoom) - 1)),
-      0
-    );
-    transition: transform var(--map-zoom-duration) var(--map-zoom-ease);
+    transition: transform 820ms cubic-bezier(0.35, 0.06, 0.22, 1);
   }
 
   .city-marker-track:has(.city-marker:hover) {
@@ -664,20 +655,27 @@ img {
   }
 
   .route-map {
-    border-radius: 18px 18px 0 0;
+    border-radius: var(--panel-radius) var(--panel-radius) 0 0;
   }
 
   .route-panel {
     position: relative;
     inset: auto;
     width: auto;
-    margin: -8px 9px 9px;
-    padding: 11px;
-    border-radius: 10px;
+    margin: -8px 8px 8px;
+    padding: 12px;
+    border-radius: 12px;
   }
 }
 
 @media (max-width: 900px) {
+  :root {
+    --section-heading-gap: 24px;
+    --content-gap: 16px;
+    --panel-padding: 20px;
+    --panel-radius: 16px;
+  }
+
   .hero-copy {
     grid-template-columns: minmax(0, 1.4fr) minmax(190px, 1fr);
     align-items: center;
@@ -719,7 +717,9 @@ img {
 
 @media (max-width: 640px) {
   :root {
-    --section-space: 46px;
+    --section-space: clamp(56px, 15.5vw, 72px);
+    --content-gap: 12px;
+    --panel-padding: 16px;
   }
 
   .brand {
@@ -736,21 +736,18 @@ img {
   }
 
   .hero {
-    border-radius: 16px;
+    --hero-inset: var(--panel-padding);
+    border-radius: var(--panel-radius);
   }
 
   .hero-copy {
     grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 24px 18px 0;
+    gap: 12px;
+    padding: 24px var(--hero-inset) 0;
   }
 
   .hero h1 {
-    font-size: clamp(24px, calc(10vw - 6px), 48px);
-  }
-
-  .hero-action p {
-    margin-bottom: 14px;
+    font-size: clamp(25px, 8.3vw, 46px);
   }
 
   .map-link:not(.map-link-secondary) {
@@ -764,7 +761,8 @@ img {
   }
 
   .hero-map {
-    top: 21px;
+    top: 15px;
+    bottom: -18px;
     left: 8%;
     width: 105%;
     padding: 3px;
@@ -773,32 +771,17 @@ img {
   }
 
   .hero-map img {
+    height: 100%;
     border-radius: 8px;
+    object-fit: cover;
+    object-position: 50% 0;
   }
 
   .hero-mark {
-    bottom: -13px;
+    bottom: -3px;
     left: 5px;
-    width: clamp(142px, 42vw, 205px);
+    width: clamp(105px, 31vw, 160px);
     transform: rotate(-18deg);
-  }
-
-  .route-scene {
-    border-radius: 13px;
-  }
-
-  .route-map {
-    border-radius: 13px 13px 0 0;
-  }
-
-  .cities-heading {
-    display: block;
-    margin-bottom: 15px;
-  }
-
-  .cities-heading p {
-    margin-top: 9px;
-    font-size: 16px;
   }
 
 }

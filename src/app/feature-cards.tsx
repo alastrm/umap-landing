@@ -27,6 +27,7 @@ const features = [
   {
     id: "places", title: "Организации", tilt: 4.5,
     image: "umap-place-card.webp", width: 626, height: 824,
+    preview: { image: "umap-place-preview.webp", width: 628, height: 515 },
     description: "Откройте карточку места, чтобы посмотреть адрес, часы работы и фотографии.",
     alt: "Карточка организации с фотографией, адресом и часами работы",
   },
@@ -44,6 +45,8 @@ type FeatureDetail = Exclude<Feature, { id: "routes" }>;
 const spring = { type: "spring", stiffness: 265, damping: 26, mass: 0.9 } as const;
 
 function CardFace({ feature }: { feature: Feature }) {
+  const preview = "preview" in feature ? feature.preview : feature;
+
   return (
     <m.span
       className={styles.face}
@@ -62,7 +65,7 @@ function CardFace({ feature }: { feature: Feature }) {
         )}
       </span>
       <span className={styles.art}>
-        <Image src={`/assets/${feature.image}`} width={feature.width} height={feature.height} alt="" />
+        <Image src={`/assets/${preview.image}`} width={preview.width} height={preview.height} alt="" />
       </span>
     </m.span>
   );
